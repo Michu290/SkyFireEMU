@@ -50,6 +50,9 @@ public:
         if (action == GOSSIP_ACTION_INFO_DEF)
             player->SEND_GOSSIP_MENU(523, creature->GetGUID());
 
+		if (action == GOSSIP_ACTION_TRADE)
+            player->GetSession()->SendListInventory(creature->GetGUID());
+
         return true;
     }
 
@@ -57,6 +60,9 @@ public:
     {
         if (creature->isQuestGiver())
             player->PrepareQuestMenu(creature->GetGUID());
+
+		if (creature->isVendor())
+            player->ADD_GOSSIP_ITEM(GOSSIP_ICON_VENDOR, GOSSIP_TEXT_BROWSE_GOODS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRADE);
 
         if (!player->GetQuestRewardStatus(770))
             player->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_SW, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
